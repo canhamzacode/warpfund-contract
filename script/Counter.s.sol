@@ -2,18 +2,23 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Counter} from "../src/Counter.sol";
+import {WarpFund} from "../src/FundMe.sol";
 
-contract CounterScript is Script {
-    Counter public counter;
+contract DeployWarpFund is Script {
+    WarpFund public fundMe;
 
-    function setUp() public {}
+    function setUp() public {
+        console.log("Deploying WarpFund");
+        string[] memory categories = new string[](3);
+        categories[0] = "Health";
+        categories[1] = "Education";
+        categories[2] = "Environment";
+        fundMe.setCategories(categories);
+    }
 
     function run() public {
         vm.startBroadcast();
-
-        counter = new Counter();
-
+        fundMe = new WarpFund();
         vm.stopBroadcast();
     }
 }
