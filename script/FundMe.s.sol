@@ -6,19 +6,22 @@ import {WarpFund} from "../src/FundMe.sol";
 
 contract DeployWarpFund is Script {
     WarpFund public fundMe;
+    address deployer;
+    string[] categories = new string[](3);
 
     function setUp() public {
         console.log("Deploying WarpFund");
-        string[] memory categories = new string[](3);
+        deployer = msg.sender;
+
         categories[0] = "Health";
         categories[1] = "Education";
         categories[2] = "Environment";
-        fundMe.setCategories(categories);
     }
 
     function run() public {
         vm.startBroadcast();
-        fundMe = new WarpFund();
+        fundMe = new WarpFund(deployer);
+        fundMe.setCategories(categories);
         vm.stopBroadcast();
     }
 }
